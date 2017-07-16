@@ -1,0 +1,13 @@
+{
+  "name": "tipjar",
+  "version": "1.0.0",
+  "description": "Tip Jar",
+  "main": "tipjar.html",
+  "scripts": {
+    "start": "npm run lite",
+    "lite": "lite-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Blair Neumann",
+  "license": "ISC"
+}
