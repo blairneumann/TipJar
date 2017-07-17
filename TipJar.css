@@ -6,23 +6,17 @@ html, body {
     height: 100%;
 }
 
-.viewport {
-    height: 100%;
-}
-
 #my-header {
     height: 33%;
-    background-color: lightgreen;
+    background-color: lightcoral;
 }
 
 #my-body {
     height: 34%;
-    background-color: lightsalmon;
 }
 
 #my-footer {
     height: 33%;
-    background-color: lightgreen;
 }
 
 #input-tip {
