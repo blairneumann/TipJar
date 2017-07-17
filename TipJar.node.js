@@ -7,8 +7,8 @@ var SOURCE = process.env.SOURCE;
 var DESTINATION = process.env.DESTINATION;
 
 exports.handler = function (event, context) {
-    sendEmail(event, function (err, data) {
-        context.done(err, null);
+    sendEmail(event, function (e, data) {
+        context.done(e, null);
     });
 };
  
@@ -27,7 +27,7 @@ function sendEmail (event, done) {
             },
             Subject: {
                 Charset: 'UTF-8',
-                Data: 'Tip: ' + event.tip
+                Data: 'Tip Jar: You have a new tip in the Tip Jar!'
             }
         }
     };
