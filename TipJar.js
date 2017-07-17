@@ -15,6 +15,10 @@ var listOfTips = [
 
 $(document).ready(function() {
 
+    // Setup our Success and Error elements
+    doHide($('#success'));
+    doHide($('#error'));
+
     // Set a random tip placeholder
     doTipPlaceholder();
 
@@ -56,12 +60,33 @@ function doCharCount() {
     }
 }
 
-function doSuccess() {
-    // alert("Success!");
+// Hide an element
+function doHide(element) {
+    element.hide();
 }
 
-function doError() {
-    alert("Uh-oh, something went wrong. :-(");
+// Position element
+function doPosition(element) {
+    element.css('top', -1 * $(window).height() / 2 - element.height() / 2);
+}
+
+// Show an element
+function doShow(element) {
+    doPosition(element);
+
+    element.fadeIn("slow");
+    element.delay(2000);
+    element.fadeOut("slow");   
+}
+
+// On AJAX Success
+function onSuccess() {
+    doShow($('#success'));
+}
+
+// On AJAX Error
+function onError() {
+    doShow($('#error'));
 }
 
 // Submit 
@@ -81,7 +106,7 @@ function doTipJar() {
         dataType: 'json',
         contentType: 'application/json',
         data: JSON.stringify({ tip : tip }),
-        success: doSuccess,
-        error: doError,
+        success: onSuccess,
+        error: onError,
     });
 }
