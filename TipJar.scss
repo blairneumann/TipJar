@@ -1,0 +1,42 @@
+@mixin height($height) {
+    height: $height;
+}
+
+@mixin width($width) {
+    width: $width;
+}
+
+html, body {
+    @include height(100%);
+}
+
+#my-header {
+    @include height(36%);
+}
+
+#my-body {
+    @include height(28%);
+}
+
+#my-footer {
+    @include height(36%);
+}
+
+#input-tip {
+    @include width(100%);
+}
+
+@mixin alert-box($background-color, $border-color) {
+    position: relative;
+    background-color: $background-color;
+    border: 2px solid $border-color;
+    border-radius: 8px;
+}
+
+#success {
+    @include alert-box(lightgreen, green);
+}
+
+#error {
+    @include alert-box(lightcoral, red);
+}
