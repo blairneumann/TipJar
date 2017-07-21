@@ -1,0 +1,26 @@
+html, body {
+  height: 100%; }
+
+#my-header {
+  height: 36%; }
+
+#my-body {
+  height: 28%; }
+
+#my-footer {
+  height: 36%; }
+
+#input-tip {
+  width: 100%; }
+
+#success {
+  position: relative;
+  background-color: lightgreen;
+  border: 2px solid green;
+  border-radius: 8px; }
+
+#error {
+  position: relative;
+  background-color: lightcoral;
+  border: 2px solid red;
+  border-radius: 8px; }
