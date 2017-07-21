@@ -42,7 +42,7 @@ $(document).ready(function() {
 
 // Update the random tip placeholder
 function doTipPlaceholder() {
-    $('#input-tip').attr('placeholder', listOfTips[Math.floor((Math.random() * listOfTips.length) + 1)]);
+    $('#input-tip').attr('placeholder', listOfTips[Math.floor(Math.random() * listOfTips.length)]);
 }
 
 // Update the character count UI
