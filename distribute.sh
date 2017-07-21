@@ -1,4 +1,4 @@
 #!/bin/sh
 
 aws s3 rm s3://blairneumann-tipjar --recursive
-aws s3 sync ./site s3://blairneumann-tipjar --delete --acl public-read
+aws s3 sync ./site s3://blairneumann-tipjar --acl public-read
