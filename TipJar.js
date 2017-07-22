@@ -25,7 +25,7 @@ function buildAlertString (alertClass, alertContent) {
 }
 
 var $alertSuccess = $(buildAlertString("alert-success",
-    "<h2>Thanks for the Tip!</h2>"));
+    "<h2>Thanks for the tip!</h2>"));
 var $alertError = $(buildAlertString("alert-error",
     "<h2>Uh-oh, something went wrong. :-(</h2><h2>Please try again.</h2>"));
 
@@ -50,6 +50,7 @@ $(document).ready(function() {
     });
 });
 
+// Reset the input field
 function doResetInput($input) {
     $input.removeAttr('disabled');
     doRandomTipPlaceholder($input);
@@ -98,7 +99,7 @@ function xhr() {
     return xhr;
 }
 
-// Show an UI alert
+// Show a UI alert
 function doShowAlert($alert) {
     var $input = $('#input-tip');
     var duration = 1000; // 1 second
