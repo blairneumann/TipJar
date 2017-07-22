@@ -8,6 +8,8 @@
         <!-- build:css css/main.css -->
         <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+        <!-- endbuild -->
+        <!-- build:css css/custom.css -->
         <link rel="stylesheet" href="TipJar.css">
         <!-- endbuild -->
 
@@ -15,6 +17,8 @@
         <script src="node_modules/jquery/dist/jquery.min.js"></script>
         <script src="node_modules/tether/dist/js/tether.min.js"></script>
         <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+        <!-- endbuild -->
+        <!-- build:js js/custom.js -->
         <script src="TipJar.js"></script>
         <!-- endbuild -->
 
@@ -29,14 +33,15 @@
                 </div>
             </div>
             <div class="row row-content" id="my-body">
-                <div class="col-12 align-self-center">
+                <div class="col-12 d-flex align-self-center">
                     <form class="form">
                         <div class="form-group row mb-0">
                             <div class="col-12">
-                                <input class="form-control-lg" id="input-tip" type="text" autofocus />
+                                <input id="input-tip" class="form-control-lg" type="text" />
+                                <div id="progress-bar" class="my-0 py-0"></div>
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group row my-0"> 
                             <div class="col text-left ml-2">
                                 <div>Press <span class="fa fa-level-down fa-rotate-90"></span> to leave your tip.</div>
                             </div>
@@ -50,21 +55,6 @@
             <div class="row row-content" id="my-footer">
                 <div class="col-12 text-center align-self-end">
                     <p><span class="fa fa-copyright"></span> 2017 Blair Neumann</p>
-                </div>
-            </div>
-        </div>
-        <div class="container" id="success">
-            <div class="row">
-                <div class="col text-center align-self-center py-3">
-                    <h2>Thanks for the tip!</h2>
-                </div>
-            </div>
-        </div>
-        <div class="container" id="error">
-            <div class="row">
-                <div class="col text-center align-self-center py-3">
-                    <h2>Uh-oh, something went wrong. :-(</h2>
-                    <h2>Please try again.</h2>
                 </div>
             </div>
         </div>

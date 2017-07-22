@@ -1,6 +1,9 @@
 html, body {
   height: 100%; }
 
+form {
+  width: 100%; }
+
 #my-header {
   height: 36%; }
 
@@ -13,13 +16,20 @@ html, body {
 #input-tip {
   width: 100%; }
 
-#success {
+#progress-bar {
+  background-color: green;
+  position: relative;
+  top: -5px;
+  height: 4px;
+  width: 0; }
+
+.container.alert-success {
   position: relative;
   background-color: lightgreen;
   border: 2px solid green;
   border-radius: 8px; }
 
-#error {
+.container.alert-error {
   position: relative;
   background-color: lightcoral;
   border: 2px solid red;

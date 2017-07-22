@@ -1,6 +1,6 @@
 var maxCharCount = 140;
 
-var listOfTips = [
+var listOfPlaceholderTips = [
     "Don't run with scissors.",
     "Look both ways before crossing the street.",
     "Don't forget to feet the cat.",
@@ -13,26 +13,36 @@ var listOfTips = [
     "Always treat others the way you want to be treated.",
 ];
 
+function buildAlertString (alertClass, alertContent) {
+    return " \
+        <div class='container $class$'> \
+            <div class='row'> \
+                <div class='col text-center align-self-center py-3'> \
+                    $content$ \
+                </div> \
+            </div> \
+        </div>".replace("$class$", alertClass).replace("$content$", alertContent);
+}
+
+var $alertSuccess = $(buildAlertString("alert-success",
+    "<h2>Thanks for the Tip!</h2>"));
+var $alertError = $(buildAlertString("alert-error",
+    "<h2>Uh-oh, something went wrong. :-(</h2><h2>Please try again.</h2>"));
+
 $(document).ready(function() {
+    var $input = $('#input-tip');
 
-    // Setup our Success and Error elements
-    doHide($('#success'));
-    doHide($('#error'));
-
-    // Set a random tip placeholder
-    doTipPlaceholder();
-
-    // Setup the character count UI
-    $('#input-tip').attr('maxlength', maxCharCount);
-    doCharCount();
+    // Setup the input field
+    $input.attr('maxlength', maxCharCount);
+    doResetInput($input);
 
     // Update the character count UI with each keystroke
-    $('#input-tip').keyup(function(event) {
-        doCharCount();
+    $input.keyup(function(event) {
+        doCharCount($input);
     });
 
     // Submit on Enter
-    $('#input-tip').keydown(function(event) {
+    $input.keydown(function(event) {
         if (10 == event.which || 13 == event.which) {
             doTipJar();
             return false;
@@ -40,65 +50,98 @@ $(document).ready(function() {
     });
 });
 
+function doResetInput($input) {
+    $input.removeAttr('disabled');
+    doRandomTipPlaceholder($input);
+    $input.val('');
+    doCharCount($input);
+    $input.focus();
+}
+
 // Update the random tip placeholder
-function doTipPlaceholder() {
-    $('#input-tip').attr('placeholder', listOfTips[Math.floor(Math.random() * listOfTips.length)]);
+function doRandomTipPlaceholder($input) {
+    $input.attr('placeholder',
+        listOfPlaceholderTips[Math.floor(Math.random() * listOfPlaceholderTips.length)]);
 }
 
 // Update the character count UI
-function doCharCount() {
-    var charCount = $('#input-tip').val().length;
+function doCharCount($input) {
+    var $charCount = $('#char-count');
+    var charCount = $input.val().length;
 
-    $('#char-count').text(maxCharCount - charCount);
+    $charCount.text(maxCharCount - charCount);
 
     if (charCount >= maxCharCount * 0.80) {
-        $('#char-count').css('color', 'red');
+        $charCount.css('color', 'red');
     } else if (charCount >= maxCharCount * 0.50) {
-        $('#char-count').css('color', 'orange');
+        $charCount.css('color', 'orange');
     } else {
-        $('#char-count').css('color', 'green');
+        $charCount.css('color', 'green');
     }
 }
 
-// Hide an element
-function doHide(element) {
-    element.hide();
+// Update the progress bar
+function doProgressBar(percent) {
+    $('#progress-bar').css('width', percent +'%');
 }
 
-// Position element
-function doPosition(element) {
-    element.css('top', -1 * $(window).height() / 2 - element.height() / 2);
+// Update the progress bar as upload progresses
+function xhr() {
+    var xhr = new window.XMLHttpRequest();
+
+    xhr.upload.addEventListener("progress", function(event) {
+        if (event.lengthComputable) {
+            doProgressBar(event.loaded / event.total * 100);
+        }
+    }, false);
+
+    return xhr;
 }
 
-// Show an element
-function doShow(element) {
-    doPosition(element);
+// Show an UI alert
+function doShowAlert($alert) {
+    var $input = $('#input-tip');
+    var duration = 1000; // 1 second
 
-    element.fadeIn("slow");
-    element.delay(2000);
-    element.fadeOut("slow");   
+    $('body').append($alert);
+    $alert.hide();
+    $alert.css('top', -1 * $(window).height() / 2 - $alert.height() / 2);
+    $alert.fadeIn(duration, function() {
+        $('#progress-bar').css('width', 0);
+    });
+    
+    $alert.delay(duration);
+
+    $alert.fadeOut(duration, function() {
+        doResetInput($input);        
+        $alert.detach();
+    });
 }
 
 // On AJAX Success
-function onSuccess() {
-    doShow($('#success'));
+function onSuccess(result, status, xhr) {
+    doShowAlert($alertSuccess);
 }
 
 // On AJAX Error
-function onError() {
-    doShow($('#error'));
+function onError(xhr, status, error) {
+    doShowAlert($alertError);
 }
 
 // Submit 
 function doTipJar() {
-    var tip = $('#input-tip').val().trim();
+    var $input = $('#input-tip');
+    var tip = $input.val().trim();
 
-    $('#input-tip').val('');
-    doTipPlaceholder();
-    doCharCount();
-    
-    if (!tip.length)
+    if (!tip.length) {
+        doResetInput($input);
         return;
+    }
+
+    $input.blur();
+    $input.attr('disabled', 'disabled');
+
+    doProgressBar(0);
 
     $.ajax({
         type: 'POST',
@@ -106,6 +149,7 @@ function doTipJar() {
         dataType: 'json',
         contentType: 'application/json',
         data: JSON.stringify({ tip : tip }),
+        xhr: xhr,
         success: onSuccess,
         error: onError,
     });

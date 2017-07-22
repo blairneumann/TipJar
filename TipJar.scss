@@ -1,29 +1,33 @@
-@mixin height($height) {
-    height: $height;
-}
-
-@mixin width($width) {
-    width: $width;
-}
-
 html, body {
-    @include height(100%);
+    height: 100%;
+}
+
+form {
+    width: 100%;
 }
 
 #my-header {
-    @include height(36%);
+    height: 36%;
 }
 
 #my-body {
-    @include height(28%);
+    height: 28%;
 }
 
 #my-footer {
-    @include height(36%);
+    height: 36%;
 }
 
 #input-tip {
-    @include width(100%);
+    width: 100%;
+}
+
+#progress-bar {
+    background-color: green;
+    position: relative;
+    top: -5px;
+    height: 4px;
+    width: 0;
 }
 
 @mixin alert-box($background-color, $border-color) {
@@ -33,10 +37,10 @@ html, body {
     border-radius: 8px;
 }
 
-#success {
+.container.alert-success {
     @include alert-box(lightgreen, green);
 }
 
-#error {
+.container.alert-error {
     @include alert-box(lightcoral, red);
 }
