@@ -18,14 +18,12 @@
   },
   "author": "Blair Neumann",
   "license": "MIT",
-  "dependencies": {
-    "bootstrap": "^4.0.0-alpha.6",
-    "font-awesome": "^4.7.0"
-  },
   "devDependencies": {
+    "bootstrap": "^4.0.0-alpha.6",
     "chai": "^4.1.0",
     "copyfiles": "^1.2.0",
     "cssmin": "^0.4.3",
+    "font-awesome": "^4.7.0",
     "htmlmin": "0.0.7",
     "lite-server": "^2.3.0",
     "mocha": "^3.4.2",
