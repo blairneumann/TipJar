@@ -7,8 +7,8 @@ var SOURCE = process.env.SOURCE;
 var DESTINATION = process.env.DESTINATION;
 
 exports.handler = function (event, context) {
-    sendEmail(event, function (e, data) {
-        context.done(e, null);
+    sendEmail(event, function (err, data) {
+        context.done(err, null);
     });
 };
  
