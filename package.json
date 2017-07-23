@@ -14,7 +14,9 @@
     "build": "npm run copyfonts && npm run usemin",
     "clean": "rimraf site",
     "copyfonts": "copyfiles -f node_modules/font-awesome/fonts/* site/fonts",
-    "usemin": "usemin index.html --htmlmin -d site -o site/index.html && usemin error.html --htmlmin -d site -o site/error.html"
+    "usemin": "usemin index.html --htmlmin -d site -o site/index.html && usemin error.html --htmlmin -d site -o site/error.html",
+    "predeploy": "npm run build",
+    "deploy": "aws s3 rm s3://blairneumann-tipjar --recursive && aws s3 sync ./site s3://blairneumann-tipjar --acl public-read"
   },
   "author": "Blair Neumann",
   "license": "MIT",
