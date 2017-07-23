@@ -2,7 +2,7 @@
   "name": "tipjar",
   "version": "1.0.0",
   "description": "Tip Jar",
-  "main": "TipJar.html",
+  "main": "index.html",
   "scripts": {
     "start": "npm run watch:all",
     "watch:all": "parallelshell 'npm run watch:scss' 'npm run lite'",
@@ -14,7 +14,7 @@
     "build": "npm run copyfonts && npm run usemin",
     "clean": "rimraf site",
     "copyfonts": "copyfiles -f node_modules/font-awesome/fonts/* site/fonts",
-    "usemin": "usemin TipJar.html --htmlmin -d site -o site/TipJar.html && usemin error.html --htmlmin -d site -o site/error.html"
+    "usemin": "usemin index.html --htmlmin -d site -o site/index.html && usemin error.html --htmlmin -d site -o site/error.html"
   },
   "author": "Blair Neumann",
   "license": "MIT",
