@@ -92,7 +92,13 @@ function xhr() {
 
     xhr.upload.addEventListener("progress", function(event) {
         if (event.lengthComputable) {
-            doProgressBar(event.loaded / event.total * 100);
+            doProgressBar(event.loaded / event.total * 50);
+        }
+    }, false);
+
+    xhr.addEventListener("progress", function(event) {
+        if (event.lengthComputable) {
+            doProgressBar(50 + event.loaded / event.total * 50);
         }
     }, false);
 
