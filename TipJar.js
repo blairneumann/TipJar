@@ -1,6 +1,9 @@
 // The maximum length of a tip.
 var maxCharCount = 140;
 
+// How long we show alerts for (in milliseconds).
+var alertDuration = 3000;
+
 // A list of banal placeholder tips to help liven up the UI.
 // We'll show random ones as placeholder text in our input field.
 var listOfPlaceholderTips = [
@@ -40,15 +43,20 @@ var $alertError = $(buildAlertString('alert-error',
 // Cached jQuery objects of general interest in this script.
 var $body, $input, $charCount, $progressBar;
 
+// Use the actual element if it's available, otherwise use a test double.
+function elementTestDouble(actual, testDouble) {
+    return actual.length ? actual : testDouble;
+}
+
 // Run this when the document is finished loading.
 // Factored this way for testability.
 function onReady() {
 
     // Populate our cached jQuery objects, or use test-doubles.
-    $body = $('#body').length ? $('#body') : $('<body></body>');
-    $input = $('#input-tip').length ? $('#input-tip') : $('<input />');
-    $charCount = $('#char-count').length ? $('#char-count') : $('<div></div>');
-    $progressBar = $('#progress-bar').length ? $('#progress-bar') : $('<div></div>');
+    $body = elementTestDouble($('#body'), $('<body></body>'));
+    $input = elementTestDouble($('#input-tip'), $('<input />'));
+    $charCount = elementTestDouble($('#char-count'), $('<div></div>'));
+    $progressBar = elementTestDouble($('#progress-bar'), $('<div></div>'));
 
     // Setup the input field.
     $input.attr('maxlength', maxCharCount);
@@ -124,18 +132,16 @@ function xhr() {
 
 // Show a UI alert.
 function doShowAlert($alert) {
-    var duration = 1000; // 1 second
-
     $body.append($alert);
     $alert.hide();
     $alert.css('top', -1 * $(window).height() / 2 - $alert.height() / 2);
-    $alert.fadeIn(duration, function() {
+    $alert.fadeIn(alertDuration / 3, function() {
         $progressBar.css('width', 0);
     });
     
-    $alert.delay(duration);
+    $alert.delay(alertDuration / 3);
 
-    $alert.fadeOut(duration, function() {
+    $alert.fadeOut(alertDuration / 3, function() {
         doResetInput();        
         $alert.detach();
     });
