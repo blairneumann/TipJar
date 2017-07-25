@@ -1,3 +1,5 @@
+/* eslint no-undef: "off" */
+
 /*
  * Note: PhantomJS is being used to run these tests from the command line, and
  * PhantomJS doesn't support ES6 features yet, so this is implemented to ES5.
@@ -17,8 +19,8 @@ function isPositiveInteger (name, value) {
   });  
 }
 
-isPositiveInteger("maxCharCount", maxCharCount);
-isPositiveInteger("alertDuration", alertDuration);
+isPositiveInteger('maxCharCount', maxCharCount);
+isPositiveInteger('alertDuration', alertDuration);
 
 describe('listOfPlaceholderTips', function () {
   it('should be a non-trivial array of strings', function () {
@@ -90,14 +92,37 @@ function isAlertElement (name, element) {
 isAlertElement('Success', $alertSuccess[0]);
 isAlertElement('Error', $alertError[0]);
 
-// I feel like this is a bug waiting to happen, but puting this in before()
-// didn't work. Hmm...
-onReady();
 describe('Cached jQuery objects', function () {
-  isElement("$body", $body[0]);
-  isElement("$input", $input[0]);
-  isElement("$progressBar", $progressBar[0]);
-  isElement("$charCount", $charCount[0]);
+  before(function () {
+    onReady();
+  });
+
+  // It seems like this should be factorable into a helper function.
+  // Whenever I try to do so, the helper is called before before(). Hmm...
+  it('$body should exist', function () {
+    assert.exists($body[0], 'exists');
+  });
+  it('$body should be HTML', function () {
+    assert.isString($body[0].outerHTML, 'outer HTML is string');
+  }); 
+  it('$input should exist', function () {
+    assert.exists($input[0], 'exists');
+  });
+  it('$input should be HTML', function () {
+    assert.isString($input[0].outerHTML, 'outer HTML is string');
+  });
+  it('$progressBar should exist', function () {
+    assert.exists($progressBar[0], 'exists');
+  });
+  it('$progressBar should be HTML', function () {
+    assert.isString($progressBar[0].outerHTML, 'outer HTML is string');
+  }); 
+  it('$charCount should exist', function () {
+    assert.exists($charCount[0], 'exists');
+  });
+  it('$charCount should be HTML', function () {
+    assert.isString($charCount[0].outerHTML, 'outer HTML is string');
+  }); 
 });
 
 describe('Input field is ready', function () {
@@ -139,12 +164,12 @@ describe('doResetInput', function () {
 describe('doRandomTipPlaceholder', function () {
   before(function () {
     doRandomTipPlaceholder();
-  })
+  });
 
   it('should have a tip placeholder', function () {
     var placeholder = $input.attr('placeholder');
     assert.isString(placeholder, 'placeholder is string');
-    assert.isAbove(placeholder.length, 0, 'placeholder text is non-trivial');    
+    assert.isAbove(placeholder.length, 0, 'placeholder text is non-trivial');
   });
   it('should be random', function () {
     var isRandom = false;
@@ -184,7 +209,7 @@ describe('doCharCount', function () {
       
       var count;
       for (var idx = 1; idx < maxCharCount; ++idx) {
-        $input.val(input += "x");
+        $input.val(input += 'x');
         doCharCount();
         count = parseInt($charCount[0].innerText, 10);
 
@@ -236,11 +261,35 @@ function testShowAlert (name, $alert, className) {
 testShowAlert('Success', $alertSuccess, 'alert-success');
 testShowAlert('Error', $alertError, 'alert-error');
 
-describe('doTipJar', function () {
-  it('should bail if no input is provided');
-  it('should disable input');
-  it('should set the progress bar to zero');
+describe('doTipJar empty', function () {
+  before(function () {
+    doResetInput();
+    doTipJar(true);
+  });
+
+  it('should bail if no input is provided', function () {
+    assert.isUndefined($input.attr('disabled'), 'input is disabled');
+  });
+});
+
+describe('doTipJar full', function () {
+  before(function () {
+    $input.val('test');
+    doTipJar(true); // suppress POST for now. Remove when we can test this.
+  });
+
+  it('should disable input', function () {
+    assert.strictEqual($input.attr('disabled'), 'disabled',
+      'input is disabled');
+  });
+  it('should set the progress bar to zero', function () {
+    assert.strictEqual($progressBar.css('width'), '0%',
+      'width is 0%');
+    assert.strictEqual($progressBar.width(), 0,
+      '.width() is zero');
+  });
 
   // Probably need something like Sinon to test this.
+  // Get rid of that doTipJar(suppressPost) parameter when we have this.
   it('should post to a web service asynchronously');
 });
