@@ -9,6 +9,10 @@
     "watch:scss": "onchange 'TipJar.scss' -- npm run scss",
     "scss": "node-sass TipJar.scss TipJar.css",
     "lite": "lite-server -c bs-config.json",
+    "validate": "mocha test/validate.js",
+    "lint:test": "eslint test/TipJarTest.js && eslint test/validate.js",
+    "lint:dev": "eslint TipJar.js --fix --env browser --env jquery",
+    "lint:node": "eslint TipJar.node.js --fix --env node",
     "test": "mocha-phantomjs -p /usr/local/bin/phantomjs testrunner.html",
     "prebuild": "npm run clean",
     "build": "npm run copyfonts && npm run usemin",
@@ -25,6 +29,8 @@
     "chai": "^4.1.0",
     "copyfiles": "^1.2.0",
     "cssmin": "^0.4.3",
+    "eslint": "^4.3.0",
+    "eslint-config-google": "^0.9.1",
     "font-awesome": "^4.7.0",
     "htmlmin": "0.0.7",
     "lite-server": "^2.3.0",
@@ -34,7 +40,9 @@
     "onchange": "^3.2.1",
     "parallelshell": "^3.0.1",
     "rimraf": "^2.6.1",
+    "sinon": "^2.3.8",
     "uglifyjs": "^2.4.11",
-    "usemin-cli": "^0.5.1"
+    "usemin-cli": "^0.5.1",
+    "w3cjs": "^0.4.0"
   }
 }
