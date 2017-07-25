@@ -10,7 +10,7 @@
     "scss": "node-sass TipJar.scss TipJar.css",
     "lite": "lite-server -c bs-config.json",
     "validate": "mocha test/validate.js",
-    "lint:test": "eslint test/TipJarTest.js --fix --env mocha && eslint test/validate.js --fix --env mocha --env node",
+    "lint:test": "eslint test/TipJarTest.js --fix --env mocha && eslint test/validate.js --fix --env mocha",
     "lint:dev": "eslint TipJar.js --fix --env browser --env jquery",
     "lint:node": "eslint TipJar.node.js --fix --env node",
     "test": "mocha-phantomjs -p /usr/local/bin/phantomjs testrunner.html",
