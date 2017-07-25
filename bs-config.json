@@ -1,0 +1,10 @@
+{
+  "injectChanges": false,
+  "files": [ "./**/*.{html,htm,css,js,md}" ],
+  "watchOptions": { 
+    "ignored": "node_modules"
+  },
+  "server": {
+    "baseDir": "./"
+  } 
+}
