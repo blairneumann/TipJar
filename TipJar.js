@@ -7,31 +7,33 @@ var alertDuration = 3000;
 // A list of banal placeholder tips to help liven up the UI.
 // We'll show random ones as placeholder text in our input field.
 var listOfPlaceholderTips = [
-    "Don't run with scissors.",
-    "Look both ways before crossing the street.",
-    "Don't forget to feet the cat.",
-    "Wear a jacket or you'll catch a cold.",
-    "Stay in school.",
-    "Wait at least one hour after eating before you swim.",
-    "Always wear underwear.",
-    "Cover your mouth when you sneeze.",
-    "Make new friends, but keep the old.",
-    "Always treat others the way you want to be treated.",
+    'Don\'t run with scissors.',
+    'Look both ways before crossing the street.',
+    'Don\'t forget to feet the cat.',
+    'Wear a jacket or you\'ll catch a cold.',
+    'Stay in school.',
+    'Wait at least one hour after eating before you swim.',
+    'Always wear underwear.',
+    'Cover your mouth when you sneeze.',
+    'Make new friends, but keep the old.',
+    'Always treat others the way you want to be treated.',
 ];
 
 // The HTML for our alert elements, parameterized.
-var baseAlertString = " \
-        <div class='container $class$'> \
-            <div class='row'> \
-                <div class='col text-center align-self-center py-3'> \
-                    $content$ \
-                </div> \
-            </div> \
-        </div>";
+var baseAlertString =
+        '<div class=\'container $class$\'>' +
+            '<div class=\'row\'>' +
+                '<div class=\'col text-center align-self-center py-3\'>' +
+                    '$content$' +
+                '</div>' +
+            '</div>' +
+        '</div>';
 
 // The HTML for our alert elements, with parameters replaced.
-function buildAlertString (alertClass, alertContent) {
-    return baseAlertString.replace('$class$', alertClass).replace('$content$', alertContent);
+function buildAlertString(alertClass, alertContent) {
+    return baseAlertString
+        .replace('$class$', alertClass)
+        .replace('$content$', alertContent);
 }
 
 // Our alert elements, originally detached from the DOM.
@@ -41,7 +43,10 @@ var $alertError = $(buildAlertString('alert-error',
     '<h2>Uh-oh, something went wrong. :-(</h2><h2>Please try again.</h2>'));
 
 // Cached jQuery objects of general interest in this script.
-var $body, $input, $charCount, $progressBar;
+var $body;
+var $input;
+var $charCount;
+var $progressBar;
 
 // Use the actual element if it's available, otherwise use a test double.
 function elementTestDouble(actual, testDouble) {
@@ -51,7 +56,6 @@ function elementTestDouble(actual, testDouble) {
 // Run this when the document is finished loading.
 // Factored this way for testability.
 function onReady() {
-
     // Populate our cached jQuery objects, or use test-doubles.
     $body = elementTestDouble($('#body'), $('<body></body>'));
     $input = elementTestDouble($('#input-tip'), $('<input />'));
@@ -67,12 +71,13 @@ function onReady() {
         doCharCount();
     });
 
-    // Submit on Enter. This is a single-line input field, so both LF and CR should submit.
+    // Submit on Enter.
+    // This is a single-line input field, so both LF and CR should submit.
     $input.keydown(function(event) {
         if (10 == event.which || 13 == event.which) {
             doTipJar();
             return false;
-        } 
+        }
     });
 } $(document).ready(onReady);
 
@@ -87,8 +92,8 @@ function doResetInput() {
 
 // Update the random tip placeholder.
 function doRandomTipPlaceholder() {
-    $input.attr('placeholder',
-        listOfPlaceholderTips[Math.floor(Math.random() * listOfPlaceholderTips.length)]);
+    $input.attr('placeholder', listOfPlaceholderTips[Math.floor(Math.random()
+        * listOfPlaceholderTips.length)]);
 }
 
 // Update the character count UI.
@@ -138,11 +143,11 @@ function doShowAlert($alert) {
     $alert.fadeIn(alertDuration / 3, function() {
         $progressBar.css('width', 0);
     });
-    
+
     $alert.delay(alertDuration / 3);
 
     $alert.fadeOut(alertDuration / 3, function() {
-        doResetInput();        
+        doResetInput();
         $alert.detach();
     });
 }
@@ -177,7 +182,7 @@ function doTipJar(suppressPost) {
             url: 'https://pmrv6ztoi5.execute-api.us-west-2.amazonaws.com/prod',
             dataType: 'json',
             contentType: 'application/json',
-            data: JSON.stringify({ tip : tip }),
+            data: JSON.stringify({ tip: tip }),
             xhr: xhr,
             success: onSuccess,
             error: onError,

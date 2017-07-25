@@ -1,8 +1,10 @@
+/* eslint no-console: "off" */
+
 'use strict';
 
 var AWS = require('aws-sdk');
 var SES = new AWS.SES({
-    region: 'us-west-2'
+    region: 'us-west-2',
 });
 
 var SOURCE = process.env.SOURCE;
@@ -20,7 +22,7 @@ function done(callback, error, result) {
     callback(error, result);
 }
 
-exports.handler = function (event, context, callback) {
+exports.handler = function(event, context, callback) {
     console.log('Event: ', JSON.stringify(event));
 
     // context.callbackWaitsForEmptyEventLoop = false; 
@@ -35,7 +37,7 @@ exports.handler = function (event, context, callback) {
         return;
     }
     if (event.tip.length > maxTipLength) {
-        done(callback, 'Bad Request: event.tip is longer than maxTipLength: '+ 
+        done(callback, 'Bad Request: event.tip is longer than maxTipLength: '+
             maxTipLength, null);
         return;
     }
@@ -43,22 +45,22 @@ exports.handler = function (event, context, callback) {
     var params = {
         Source: SOURCE,
         Destination: {
-            ToAddresses: [ DESTINATION ]
+            ToAddresses: [DESTINATION],
         },
         Message: {
             Subject: {
                 Charset: 'UTF-8',
-                Data: 'Tip Jar: You have a new tip in the Tip Jar!'
+                Data: 'Tip Jar: You have a new tip in the Tip Jar!',
             },
             Body: {
                 Text: {
                     Charset: 'UTF-8',
-                    Data: 'Tip: ' + event.tip
-                }
-            }
-        }
+                    Data: 'Tip: ' + event.tip,
+                },
+            },
+        },
     };
-    
+
     console.log('Send Mail');
 
     var email = SES.sendEmail(params, function(err, data) {
@@ -69,7 +71,7 @@ exports.handler = function (event, context, callback) {
         } else {
             console.log('Data: ', data);
             console.log('Email: ', email);
-            
+
             done(callback, null, 'Send Mail');
         }
     });
