@@ -9,7 +9,7 @@
     "watch:scss": "onchange 'TipJar.scss' -- npm run scss",
     "scss": "node-sass TipJar.scss TipJar.css",
     "lite": "lite-server",
-    "validate:all": "parallelshell 'npm run validate:html' 'npm run lint:dev' 'npm run lint:node' 'npm run lint:test'",
+    "validate:all": "parallelshell 'npm run validate:html' 'npm run lint:all'",
     "validate:html": "mocha test/validate.js",
     "lint:all": "parallelshell 'npm run lint:test' 'npm run lint:dev' 'npm run lint:node'",
     "lint:test": "eslint test/*.js --fix --env mocha",
