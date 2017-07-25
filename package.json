@@ -42,7 +42,6 @@
     "parallelshell": "^3.0.1",
     "rimraf": "^2.6.1",
     "sinon": "^2.3.8",
-    "uglifyjs": "^2.4.11",
     "usemin-cli": "^0.5.1",
     "w3cjs": "^0.4.0"
   }
