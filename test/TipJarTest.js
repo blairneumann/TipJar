@@ -76,9 +76,8 @@ function isHtmlElement(name, $element) {
 
 function isAlertElement(name, $element) {
   describe('Alert Element: '+ name, function() {
-    
     isHtmlElement(name, $element);
-    
+
     it('should contain inner text', function() {
       assert.isString($element[0].innerText, 'inner text is string');
       assert.isString($element[0].innerText.trim(),
@@ -98,10 +97,12 @@ isAlertElement('Success', $alertSuccess);
 isAlertElement('Error', $alertError);
 
 onReady();
-isHtmlElement("$body", $body);
-isHtmlElement("$input", $input);
-isHtmlElement("$progressBar", $progressBar);
-isHtmlElement("$charCount", $charCount);
+$(document).ready(function() { });
+
+isHtmlElement('$body', $body);
+isHtmlElement('$input', $input);
+isHtmlElement('$progressBar', $progressBar);
+isHtmlElement('$charCount', $charCount);
 
 describe('Input field is ready', function() {
   it('maxlength should equal maxCharCount', function() {

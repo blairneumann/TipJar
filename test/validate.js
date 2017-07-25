@@ -30,7 +30,7 @@ describe('HTML validation', function() {
 
   it('testrunner.html should have no validation errors', function(done) {
     w3cjs.validate({
-      file: 'testrunner.html',
+      file: 'test/testrunner.html',
       callback: function(error, res) {
         if (res && res.messages.length > 0 ) {
           throw { error: 'html errors have been found', results: res };
