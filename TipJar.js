@@ -158,7 +158,7 @@ function onError(xhr, status, error) {
 }
 
 // Submit 
-function doTipJar() {
+function doTipJar(suppressPost) {
     var tip = $input.val().trim();
 
     if (!tip.length) {
@@ -171,14 +171,16 @@ function doTipJar() {
 
     doProgressBar(0);
 
-    $.ajax({
-        type: 'POST',
-        url: 'https://pmrv6ztoi5.execute-api.us-west-2.amazonaws.com/prod',
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify({ tip : tip }),
-        xhr: xhr,
-        success: onSuccess,
-        error: onError,
-    });
+    if (!suppressPost) {
+        $.ajax({
+            type: 'POST',
+            url: 'https://pmrv6ztoi5.execute-api.us-west-2.amazonaws.com/prod',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({ tip : tip }),
+            xhr: xhr,
+            success: onSuccess,
+            error: onError,
+        });
+    }
 }
