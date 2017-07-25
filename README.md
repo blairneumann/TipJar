@@ -276,8 +276,7 @@ I used [**Node Package Manager (NPM)**][NPM.script] scripts to drive website dev
 | [bootstrap] | [lite-server] | [mocha] | [rimraf] |
 | [jquery][jquery.npm] | [node-sass] | [chai] | [copyfiles] |
 | [font-awesome] | [onchange] | [eslint] | [usemin] |
-| [markdown] | | [w3cjs] | [htmlmin] |
-| | | | [cssmin] |
+| [markdown] | | [w3cjs] | |
 
 ## Hosting & Deployment
 The [Tip Jar][index.html] website, including its main page and all support files, is hosted on [**AWS S3**][S3.static], which doubles as a cost-effective web hosting service for static websites like ours. Nevermind that our page includes dynamic content, it is served as static content, with all dynamic behaviors performed on the client-side or via subsequent web services calls.
