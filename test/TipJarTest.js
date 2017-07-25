@@ -63,67 +63,45 @@ describe('buildAlertString', function() {
   });
 });
 
-function isElement(name, element) {
-  it(name +' should exist', function() {
-    assert.exists(element, 'exists');
-  });
-  it(name +' should be HTML', function() {
-    assert.isString(element.innerHTML, 'inner HTML is string');
+function isHtmlElement(name, $element) {
+  describe('HTML element: '+ name, function() {
+    it('should exist', function() {
+      assert.exists($element[0], 'exists');
+    });
+    it('should be HTML', function() {
+      assert.isString($element[0].outerHTML, 'outer HTML is string');
+    });
   });
 }
 
-function isAlertElement(name, element) {
+function isAlertElement(name, $element) {
   describe('Alert Element: '+ name, function() {
-    isElement(name, element);
+    
+    isHtmlElement(name, $element);
+    
     it('should contain inner text', function() {
-      assert.isString(element.innerText, 'inner text is string');
-      assert.isString(element.innerText.trim(),
+      assert.isString($element[0].innerText, 'inner text is string');
+      assert.isString($element[0].innerText.trim(),
         'inner text is non-trivial string');
     });
     it('should have its parameters replaced', function() {
       for (var idx = 0; idx < alertStringParams.length; ++idx) {
-        assert.strictEqual(element.innerHTML.indexOf(alertStringParams[idx]),
-          -1, 'parameter is replaced: '+ alertStringParams[idx]);
+        assert.strictEqual($element[0].innerHTML
+          .indexOf(alertStringParams[idx]), -1,
+          'parameter is replaced: '+ alertStringParams[idx]);
       }
     });
   });
 }
 
-isAlertElement('Success', $alertSuccess[0]);
-isAlertElement('Error', $alertError[0]);
+isAlertElement('Success', $alertSuccess);
+isAlertElement('Error', $alertError);
 
-describe('Cached jQuery objects', function() {
-  before(function() {
-    onReady();
-  });
-
-  // It seems like this should be factorable into a helper function.
-  // Whenever I try to do so, the helper is called before before(). Hmm...
-  it('$body should exist', function() {
-    assert.exists($body[0], 'exists');
-  });
-  it('$body should be HTML', function() {
-    assert.isString($body[0].outerHTML, 'outer HTML is string');
-  });
-  it('$input should exist', function() {
-    assert.exists($input[0], 'exists');
-  });
-  it('$input should be HTML', function() {
-    assert.isString($input[0].outerHTML, 'outer HTML is string');
-  });
-  it('$progressBar should exist', function() {
-    assert.exists($progressBar[0], 'exists');
-  });
-  it('$progressBar should be HTML', function() {
-    assert.isString($progressBar[0].outerHTML, 'outer HTML is string');
-  });
-  it('$charCount should exist', function() {
-    assert.exists($charCount[0], 'exists');
-  });
-  it('$charCount should be HTML', function() {
-    assert.isString($charCount[0].outerHTML, 'outer HTML is string');
-  });
-});
+onReady();
+isHtmlElement("$body", $body);
+isHtmlElement("$input", $input);
+isHtmlElement("$progressBar", $progressBar);
+isHtmlElement("$charCount", $charCount);
 
 describe('Input field is ready', function() {
   it('maxlength should equal maxCharCount', function() {
@@ -234,7 +212,7 @@ describe('doProgressBar', function() {
   });
 });
 
-// This is going to require some kind of backend like Sinon.
+// TODO: This is going to require some kind of backend like Sinon.
 describe('xhr', function() {
   it('should update up to 50% on upload');
   it('should update from 50% to 100% on download');
@@ -242,6 +220,7 @@ describe('xhr', function() {
 
 function testShowAlert(name, $alert, className) {
   describe('doShowAlert: '+ name, function() {
+    // TODO
     it('should show an alert fading in and out over a few seconds');
     it('should detach the alert after showing it', function(done) {
       // Wait until the alert has shown.
@@ -289,7 +268,7 @@ describe('doTipJar full', function() {
       '.width() is zero');
   });
 
-  // Probably need something like Sinon to test this.
+  // TODO: Probably need something like Sinon to test this.
   // Get rid of that doTipJar(suppressPost) parameter when we have this.
   it('should post to a web service asynchronously');
 });
