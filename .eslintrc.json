@@ -3,6 +3,7 @@
     "rules": {
         "no-var": "off",
         "require-jsdoc": "off",
-        "object-curly-spacing": ["error", "always"]
+        "object-curly-spacing": ["error", "always"],
+        "global-require": "error"
     }
 }

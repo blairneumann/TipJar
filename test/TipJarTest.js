@@ -8,22 +8,22 @@
 
 var assert = chai.assert;
 
-function isPositiveInteger (name, value) {
-  describe('Positive integer: '+ name, function () {
-    it('should be a positive integer', function () {
+function isPositiveInteger(name, value) {
+  describe('Positive integer: '+ name, function() {
+    it('should be a positive integer', function() {
       assert.isNumber(value, 'is a number');
       assert.isAbove(value, 0, 'is positive');
       assert.strictEqual(value - Math.floor(value), 0,
         'is an integer');
     });
-  });  
+  });
 }
 
 isPositiveInteger('maxCharCount', maxCharCount);
 isPositiveInteger('alertDuration', alertDuration);
 
-describe('listOfPlaceholderTips', function () {
-  it('should be a non-trivial array of strings', function () {
+describe('listOfPlaceholderTips', function() {
+  it('should be a non-trivial array of strings', function() {
     assert.isArray(listOfPlaceholderTips, 'is an array');
     assert.isAbove(listOfPlaceholderTips.length, 0,
       'is a non-trivial array');
@@ -35,12 +35,12 @@ describe('listOfPlaceholderTips', function () {
 
 var alertStringParams = ['$class$', '$content$'];
 
-describe('baseAlertString', function () {
-  it('should be a non-trivial string', function () {
+describe('baseAlertString', function() {
+  it('should be a non-trivial string', function() {
     assert.isString(baseAlertString, 'is a string');
     assert.isAbove(baseAlertString.length, 0, 'is a non-trivial string');
   });
-  it('should be parameterized', function () {
+  it('should be parameterized', function() {
     for (var idx = 0; idx < alertStringParams.length; ++idx) {
       assert.isAbove(baseAlertString.indexOf(alertStringParams[idx]), -1,
         'contains parameter '+ alertStringParams[idx]);
@@ -48,14 +48,14 @@ describe('baseAlertString', function () {
   });
 });
 
-describe('buildAlertString', function () {
+describe('buildAlertString', function() {
   var alert = buildAlertString('test-class', 'test-content');
 
-  it('should return a non-trivial string', function () {
+  it('should return a non-trivial string', function() {
     assert.isString(alert, 'returns a string');
     assert.isAbove(alert.length, 0, 'returns a non-trivial string');
   });
-  it('should have its parameters replaced', function () {
+  it('should have its parameters replaced', function() {
     for (var idx = 0; idx < alertStringParams.length; ++idx) {
       assert.strictEqual(alert.indexOf(alertStringParams[idx]), -1,
         'parameter is replaced: '+ alertStringParams[idx]);
@@ -63,24 +63,24 @@ describe('buildAlertString', function () {
   });
 });
 
-function isElement (name, element) {
-  it(name +' should exist', function () {
+function isElement(name, element) {
+  it(name +' should exist', function() {
     assert.exists(element, 'exists');
   });
-  it(name +' should be HTML', function () {
+  it(name +' should be HTML', function() {
     assert.isString(element.innerHTML, 'inner HTML is string');
-  });  
+  });
 }
 
-function isAlertElement (name, element) {
-  describe('Alert Element: '+ name, function () {
+function isAlertElement(name, element) {
+  describe('Alert Element: '+ name, function() {
     isElement(name, element);
-    it('should contain inner text', function () {
+    it('should contain inner text', function() {
       assert.isString(element.innerText, 'inner text is string');
       assert.isString(element.innerText.trim(),
         'inner text is non-trivial string');
     });
-    it('should have its parameters replaced', function () {
+    it('should have its parameters replaced', function() {
       for (var idx = 0; idx < alertStringParams.length; ++idx) {
         assert.strictEqual(element.innerHTML.indexOf(alertStringParams[idx]),
           -1, 'parameter is replaced: '+ alertStringParams[idx]);
@@ -92,64 +92,64 @@ function isAlertElement (name, element) {
 isAlertElement('Success', $alertSuccess[0]);
 isAlertElement('Error', $alertError[0]);
 
-describe('Cached jQuery objects', function () {
-  before(function () {
+describe('Cached jQuery objects', function() {
+  before(function() {
     onReady();
   });
 
   // It seems like this should be factorable into a helper function.
   // Whenever I try to do so, the helper is called before before(). Hmm...
-  it('$body should exist', function () {
+  it('$body should exist', function() {
     assert.exists($body[0], 'exists');
   });
-  it('$body should be HTML', function () {
+  it('$body should be HTML', function() {
     assert.isString($body[0].outerHTML, 'outer HTML is string');
-  }); 
-  it('$input should exist', function () {
+  });
+  it('$input should exist', function() {
     assert.exists($input[0], 'exists');
   });
-  it('$input should be HTML', function () {
+  it('$input should be HTML', function() {
     assert.isString($input[0].outerHTML, 'outer HTML is string');
   });
-  it('$progressBar should exist', function () {
+  it('$progressBar should exist', function() {
     assert.exists($progressBar[0], 'exists');
   });
-  it('$progressBar should be HTML', function () {
+  it('$progressBar should be HTML', function() {
     assert.isString($progressBar[0].outerHTML, 'outer HTML is string');
-  }); 
-  it('$charCount should exist', function () {
+  });
+  it('$charCount should exist', function() {
     assert.exists($charCount[0], 'exists');
   });
-  it('$charCount should be HTML', function () {
+  it('$charCount should be HTML', function() {
     assert.isString($charCount[0].outerHTML, 'outer HTML is string');
-  }); 
+  });
 });
 
-describe('Input field is ready', function () {
-  it('maxlength should equal maxCharCount', function () {
+describe('Input field is ready', function() {
+  it('maxlength should equal maxCharCount', function() {
     assert.strictEqual($input.attr('maxlength'), maxCharCount.toString(),
       'maxlength equals maxCharCount');
   });
 });
 
-describe('doResetInput', function () {
-  before(function () {
+describe('doResetInput', function() {
+  before(function() {
     doResetInput();
   });
 
-  it('should be enabled', function () {
+  it('should be enabled', function() {
     assert.notExists($input.attr('disabled'),
       'disabled attribute is not present');
   });
-  it('should have placeholder text', function () {
+  it('should have placeholder text', function() {
     var placeholder = $input.attr('placeholder');
     assert.isString(placeholder, 'placeholder is string');
     assert.isAbove(placeholder.length, 0, 'placeholder text is non-trivial');
   });
-  it('should be empty', function () {
+  it('should be empty', function() {
     assert.strictEqual($input.val(), '', 'value is empty');
   });
-  it('should have updated the character count', function () {
+  it('should have updated the character count', function() {
     var count = $charCount[0].innerText;
     assert.isString(count, 'character count is string');
     assert.strictEqual(count.trim(), maxCharCount.toString(),
@@ -161,17 +161,17 @@ describe('doResetInput', function () {
   it('should have focus');
 });
 
-describe('doRandomTipPlaceholder', function () {
-  before(function () {
+describe('doRandomTipPlaceholder', function() {
+  before(function() {
     doRandomTipPlaceholder();
   });
 
-  it('should have a tip placeholder', function () {
+  it('should have a tip placeholder', function() {
     var placeholder = $input.attr('placeholder');
     assert.isString(placeholder, 'placeholder is string');
     assert.isAbove(placeholder.length, 0, 'placeholder text is non-trivial');
   });
-  it('should be random', function () {
+  it('should be random', function() {
     var isRandom = false;
     var tries = 100;
 
@@ -188,25 +188,25 @@ describe('doRandomTipPlaceholder', function () {
   });
 });
 
-describe('doCharCount', function () {
-  beforeEach(function () {
+describe('doCharCount', function() {
+  beforeEach(function() {
     doResetInput();
     doCharCount();
   });
 
-  it('should equal the maximum when input is empty', function () {
+  it('should equal the maximum when input is empty', function() {
     var count = $charCount[0].innerText;
     assert.isString(count, 'character count is string');
     assert.strictEqual(count.trim(), maxCharCount.toString(),
-      'character count is the maximum');    
+      'character count is the maximum');
     assert.strictEqual(count, maxCharCount.toString(),
-      'character count is not padded');    
+      'character count is not padded');
   });
   it('should update as input is added, up to the maximum, changing color',
-    function () {
+    function() {
       var input = '';
       var originalColor = $charCount.css('color');
-      
+
       var count;
       for (var idx = 1; idx < maxCharCount; ++idx) {
         $input.val(input += 'x');
@@ -222,9 +222,9 @@ describe('doCharCount', function () {
   });
 });
 
-describe('doProgressBar', function () {
-  it('should update from 0 to 100%', function () {
-    for(var width = 0; width < 100; ++width) {
+describe('doProgressBar', function() {
+  it('should update from 0 to 100%', function() {
+    for (var width = 0; width < 100; ++width) {
       doProgressBar(width);
       assert.strictEqual($progressBar.css('width'), width + '%',
         'width css is updated');
@@ -235,22 +235,22 @@ describe('doProgressBar', function () {
 });
 
 // This is going to require some kind of backend like Sinon.
-describe('xhr', function () {
+describe('xhr', function() {
   it('should update up to 50% on upload');
   it('should update from 50% to 100% on download');
 });
 
-function testShowAlert (name, $alert, className) {
-  describe('doShowAlert: '+ name, function () {
+function testShowAlert(name, $alert, className) {
+  describe('doShowAlert: '+ name, function() {
     it('should show an alert fading in and out over a few seconds');
-    it('should detach the alert after showing it', function (done) {
+    it('should detach the alert after showing it', function(done) {
       // Wait until the alert has shown.
       this.timeout(this.timeout() + alertDuration);
       this.slow(this.slow() + alertDuration);
 
       doShowAlert($alert);
 
-      setTimeout(function () {
+      setTimeout(function() {
         assert.isUndefined($body.innerHTML, 'alert detached from page body');
         done();
       }, alertDuration);
@@ -261,28 +261,28 @@ function testShowAlert (name, $alert, className) {
 testShowAlert('Success', $alertSuccess, 'alert-success');
 testShowAlert('Error', $alertError, 'alert-error');
 
-describe('doTipJar empty', function () {
-  before(function () {
+describe('doTipJar empty', function() {
+  before(function() {
     doResetInput();
     doTipJar(true);
   });
 
-  it('should bail if no input is provided', function () {
+  it('should bail if no input is provided', function() {
     assert.isUndefined($input.attr('disabled'), 'input is disabled');
   });
 });
 
-describe('doTipJar full', function () {
-  before(function () {
+describe('doTipJar full', function() {
+  before(function() {
     $input.val('test');
     doTipJar(true); // suppress POST for now. Remove when we can test this.
   });
 
-  it('should disable input', function () {
+  it('should disable input', function() {
     assert.strictEqual($input.attr('disabled'), 'disabled',
       'input is disabled');
   });
-  it('should set the progress bar to zero', function () {
+  it('should set the progress bar to zero', function() {
     assert.strictEqual($progressBar.css('width'), '0%',
       'width is 0%');
     assert.strictEqual($progressBar.width(), 0,
