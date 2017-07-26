@@ -199,7 +199,12 @@ The front-end [`Error Page`][error.html] is very simple, with just a few lines o
 ```
 
 ### Readme Page
-Depending on where you are, you may be reading our [`Readme Page`][readme.html] right now. It's basically the same [README.md][github.readme] markdown from our [**GitHub** project][github.project] re-hosted as web page content. We use [**jQuery**][jquery] and [**markdown.js**][markdown] to dynamically convert from markdown to HTML markup as follows.
+Depending on where you are, you may be reading our [`Readme Page`][readme.html] right now. It's basically the same [README.md][github.readme] markdown from our [**GitHub** project][github.project] re-hosted as a static web page.
+
+We use [**markdown-styles**][markdown-styles] to automatically generate the [`Readme Page`][readme.html] on our site.
+
+<!--
+We use [**jQuery**][jquery] and [**markdown.js**][markdown] to dynamically convert from markdown to HTML markup as follows.
 
 ```html
 <html>
@@ -221,6 +226,7 @@ Depending on where you are, you may be reading our [`Readme Page`][readme.html] 
   </body>
 </html>
 ```
+-->
 
 ## Back-End
 The Tip Jar back-end system is implemented entirely using [**Amazon Web Services (AWS)**][AWS], including [**S3 static website hosting**][S3.static], [**API gateway**][Lambda.Gateway] with [**Lambda and Node.js**][Lambda.Node], with support from **Simple Email Service (SES)** and **Identity Access Manager (IAM)**.
@@ -274,8 +280,7 @@ I used [**Node Package Manager (NPM)**][NPM.script] scripts to drive website dev
 | [bootstrap] | [lite-server] | [mocha] | [rimraf] |
 | [jquery][jquery.npm] | [node-sass] | [chai] | [copyfiles] |
 | [font-awesome] | [onchange] | [eslint] | [usemin] |
-| [markdown] | | [w3cjs] | [htmlmin] |
-| | | | [cssmin] |
+| [markdown-styles] | | [w3cjs] | [s3-cli][S3.CLI] |
 
 ## Hosting & Deployment
 The [Tip Jar][index.html] website, including its main page and all support files, is hosted on [**AWS S3**][S3.static], which doubles as a cost-effective web hosting service for static websites like ours. Nevermind that our page includes dynamic content, it is served as static content, with all dynamic behaviors performed on the client-side or via subsequent web services calls.
@@ -313,7 +318,7 @@ This project provided me with an opportunity to exercise some basic full-stack w
 [node-sass]: https://github.com/sass/node-sass
 [chai]: http://chaijs.com/
 [copyfiles]: https://www.npmjs.com/package/copyfiles
-[markdown]: https://www.npmjs.com/package/markdown
+[markdown-styles]: https://github.com/mixu/markdown-styles
 [onchange]: https://www.npmjs.com/package/onchange
 [eslint]: http://eslint.org/
 [usemin]: https://www.npmjs.com/package/usemin
