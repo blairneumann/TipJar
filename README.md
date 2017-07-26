@@ -4,6 +4,8 @@
 ## Overview
 Tip Jar is a simple full-stack web development exercise. The front-end web site is hosted on [**AWS S3**][S3.static] and designed to be _responsive_ and _mobile-first_, while the back-end is implemented using [**Node.js** on **AWS Lambda**][Lambda.Node]. Tips that are successfully submitted are delivered immediately to the website author via email. Functionality is simple so that I can focus on engineering first.
 
+**_Note:_** *Code samples in this file may be simplified from their actual implementations for clarity.*
+
 ## Front-End
 The front-end consists of three pages: the [`Main Page`][index.html], the [`Error Page`][error.html], and the [`Readme Page`][readme.html].
 
