@@ -17,12 +17,11 @@ isPositiveInteger('maxCharCount', maxCharCount);
 isPositiveInteger('alertDuration', alertDuration);
 
 describe('listOfPlaceholderTips', function() {
-  
   it('should be a non-trivial array of strings', function() {
     assert.isArray(listOfPlaceholderTips, 'is an array');
     assert.isAbove(listOfPlaceholderTips.length, 0,
       'is a non-trivial array');
-    
+
     for (var idx = 0; idx < listOfPlaceholderTips.length; ++idx) {
       assert.isString(listOfPlaceholderTips[idx], 'tip is a string');
     }
@@ -32,7 +31,6 @@ describe('listOfPlaceholderTips', function() {
 var alertStringParams = ['$class$', '$content$'];
 
 describe('baseAlertString', function() {
-
   it('should be a non-trivial string', function() {
     assert.isString(baseAlertString, 'is a string');
     assert.isAbove(baseAlertString.length, 0, 'is a non-trivial string');
@@ -64,7 +62,6 @@ describe('buildAlertString', function() {
 
 function isHtmlElement(name, $element) {
   describe('HTML element: '+ name, function() {
-
     it('should exist', function() {
       assert.exists($element[0], 'exists');
     });
@@ -107,7 +104,6 @@ isHtmlElement('$progressBar', $progressBar);
 isHtmlElement('$charCount', $charCount);
 
 describe('Input field is ready', function() {
-
   it('maxlength should equal maxCharCount', function() {
     assert.strictEqual($input.attr('maxlength'), maxCharCount.toString(),
       'maxlength equals maxCharCount');
@@ -150,7 +146,6 @@ describe('doResetInput', function() {
 });
 
 describe('doRandomTipPlaceholder', function() {
-
   before(function() {
     doRandomTipPlaceholder();
   });
@@ -179,7 +174,6 @@ describe('doRandomTipPlaceholder', function() {
 });
 
 describe('doCharCount', function() {
-
   beforeEach(function() {
     doResetInput();
     doCharCount();
@@ -235,7 +229,6 @@ describe('xhr', function() {
 
 function testShowAlert(name, $alert, className) {
   describe('doShowAlert: '+ name, function() {
-
     before(function() {
       doShowAlert($alert);
     });
@@ -243,9 +236,9 @@ function testShowAlert(name, $alert, className) {
     it('should show an alert fading in and out', function(done) {
       this.timeout(this.timeout() + alertDuration);
       this.slow(this.slow() + alertDuration);
-      
+
       var opacities = [];
-      
+
       var count = 0;
       var resolution = 100;
 
@@ -271,11 +264,10 @@ function testShowAlert(name, $alert, className) {
         }
       }, alertDuration / resolution);
     });
-    
+
     it('should detach the alert after showing it', function() {
       assert.isUndefined($body.innerHTML, 'alert detached from page body');
     });
-    
   });
 }
 
@@ -321,7 +313,7 @@ describe('doTipJar full', function() {
   after(function() {
     xhr.restore();
   });
-  
+
   it('should disable input', function() {
     assert.strictEqual($input.attr('disabled'), 'disabled',
       'input is disabled');

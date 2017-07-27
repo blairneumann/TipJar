@@ -149,7 +149,7 @@ function doShowAlert($alert) {
     $alert.fadeOut(alertDuration * 0.3, function() {
         doResetInput();
         $alert.detach();
-    }); 
+    });
 }
 
 // On AJAX Success
@@ -166,7 +166,7 @@ function onError(xhr, status, error) {
 function doTipJar(isTest) {
     var tip;
     var data;
-    
+
     tip = $input.val().trim();
     if (!tip.length) {
         doResetInput($input);
