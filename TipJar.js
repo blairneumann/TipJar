@@ -140,16 +140,16 @@ function doShowAlert($alert) {
     $body.append($alert);
     $alert.hide();
     $alert.css('top', -1 * $(window).height() / 2 - $alert.height() / 2);
-    $alert.fadeIn(alertDuration / 3, function() {
+    $alert.fadeIn(alertDuration * 0.3, function() {
         $progressBar.css('width', 0);
     });
 
-    $alert.delay(alertDuration / 3);
+    $alert.delay(alertDuration * 0.4);
 
-    $alert.fadeOut(alertDuration / 3, function() {
+    $alert.fadeOut(alertDuration * 0.3, function() {
         doResetInput();
         $alert.detach();
-    });
+    }); 
 }
 
 // On AJAX Success
