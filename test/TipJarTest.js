@@ -1,11 +1,5 @@
 /* eslint no-undef: "off" */
 
-/*
- * Note: PhantomJS is being used to run these tests from the command line, and
- * PhantomJS doesn't support ES6 features yet, so this is implemented to ES5.
- * For example, using 'var' where 'let' might make more sense.
- */ 
-
 var assert = chai.assert;
 
 function isPositiveInteger(name, value) {
@@ -23,10 +17,12 @@ isPositiveInteger('maxCharCount', maxCharCount);
 isPositiveInteger('alertDuration', alertDuration);
 
 describe('listOfPlaceholderTips', function() {
+  
   it('should be a non-trivial array of strings', function() {
     assert.isArray(listOfPlaceholderTips, 'is an array');
     assert.isAbove(listOfPlaceholderTips.length, 0,
       'is a non-trivial array');
+    
     for (var idx = 0; idx < listOfPlaceholderTips.length; ++idx) {
       assert.isString(listOfPlaceholderTips[idx], 'tip is a string');
     }
@@ -36,10 +32,12 @@ describe('listOfPlaceholderTips', function() {
 var alertStringParams = ['$class$', '$content$'];
 
 describe('baseAlertString', function() {
+
   it('should be a non-trivial string', function() {
     assert.isString(baseAlertString, 'is a string');
     assert.isAbove(baseAlertString.length, 0, 'is a non-trivial string');
   });
+
   it('should be parameterized', function() {
     for (var idx = 0; idx < alertStringParams.length; ++idx) {
       assert.isAbove(baseAlertString.indexOf(alertStringParams[idx]), -1,
@@ -55,6 +53,7 @@ describe('buildAlertString', function() {
     assert.isString(alert, 'returns a string');
     assert.isAbove(alert.length, 0, 'returns a non-trivial string');
   });
+
   it('should have its parameters replaced', function() {
     for (var idx = 0; idx < alertStringParams.length; ++idx) {
       assert.strictEqual(alert.indexOf(alertStringParams[idx]), -1,
@@ -65,9 +64,11 @@ describe('buildAlertString', function() {
 
 function isHtmlElement(name, $element) {
   describe('HTML element: '+ name, function() {
+
     it('should exist', function() {
       assert.exists($element[0], 'exists');
     });
+
     it('should be HTML', function() {
       assert.isString($element[0].outerHTML, 'outer HTML is string');
     });
@@ -83,6 +84,7 @@ function isAlertElement(name, $element) {
       assert.isString($element[0].innerText.trim(),
         'inner text is non-trivial string');
     });
+
     it('should have its parameters replaced', function() {
       for (var idx = 0; idx < alertStringParams.length; ++idx) {
         assert.strictEqual($element[0].innerHTML
@@ -105,6 +107,7 @@ isHtmlElement('$progressBar', $progressBar);
 isHtmlElement('$charCount', $charCount);
 
 describe('Input field is ready', function() {
+
   it('maxlength should equal maxCharCount', function() {
     assert.strictEqual($input.attr('maxlength'), maxCharCount.toString(),
       'maxlength equals maxCharCount');
@@ -112,7 +115,10 @@ describe('Input field is ready', function() {
 });
 
 describe('doResetInput', function() {
+  var focus;
+
   before(function() {
+    focus = sinon.stub($.fn, 'focus');
     doResetInput();
   });
 
@@ -120,27 +126,31 @@ describe('doResetInput', function() {
     assert.notExists($input.attr('disabled'),
       'disabled attribute is not present');
   });
+
   it('should have placeholder text', function() {
     var placeholder = $input.attr('placeholder');
     assert.isString(placeholder, 'placeholder is string');
     assert.isAbove(placeholder.length, 0, 'placeholder text is non-trivial');
   });
+
   it('should be empty', function() {
     assert.strictEqual($input.val(), '', 'value is empty');
   });
+
   it('should have updated the character count', function() {
     var count = $charCount[0].innerText;
     assert.isString(count, 'character count is string');
     assert.strictEqual(count.trim(), maxCharCount.toString(),
       'character count is the maximum');
   });
-  // Not sure how to implement this yet. Focus is a document-level thing,
-  // and the test environment has elements disconnected from a document.
-  // Something like Sinon, which fakes a document, might do the trick.
-  it('should have focus');
+
+  it('should have focus', function() {
+    assert.isTrue(focus.calledOnce, 'focus() was called once');
+  });
 });
 
 describe('doRandomTipPlaceholder', function() {
+
   before(function() {
     doRandomTipPlaceholder();
   });
@@ -150,6 +160,7 @@ describe('doRandomTipPlaceholder', function() {
     assert.isString(placeholder, 'placeholder is string');
     assert.isAbove(placeholder.length, 0, 'placeholder text is non-trivial');
   });
+
   it('should be random', function() {
     var isRandom = false;
     var tries = 100;
@@ -168,6 +179,7 @@ describe('doRandomTipPlaceholder', function() {
 });
 
 describe('doCharCount', function() {
+
   beforeEach(function() {
     doResetInput();
     doCharCount();
@@ -181,6 +193,7 @@ describe('doCharCount', function() {
     assert.strictEqual(count, maxCharCount.toString(),
       'character count is not padded');
   });
+
   it('should update as input is added, up to the maximum, changing color',
     function() {
       var input = '';
@@ -213,7 +226,8 @@ describe('doProgressBar', function() {
   });
 });
 
-// TODO: This is going to require some kind of backend like Sinon.
+// TODO: Sinon *is* a custom XHR.
+// So how do we test *our own* custom XHR?
 describe('xhr', function() {
   it('should update up to 50% on upload');
   it('should update from 50% to 100% on download');
@@ -221,47 +235,98 @@ describe('xhr', function() {
 
 function testShowAlert(name, $alert, className) {
   describe('doShowAlert: '+ name, function() {
-    // TODO
-    it('should show an alert fading in and out over a few seconds');
-    it('should detach the alert after showing it', function(done) {
-      // Wait until the alert has shown.
+
+    before(function() {
+      doShowAlert($alert);
+    });
+
+    it('should show an alert fading in and out', function(done) {
       this.timeout(this.timeout() + alertDuration);
       this.slow(this.slow() + alertDuration);
+      
+      var opacities = [];
+      
+      var count = 0;
+      var resolution = 100;
 
-      doShowAlert($alert);
+      var interval = setInterval(function() {
+        opacities.push(parseFloat($alert.css('opacity')));
 
-      setTimeout(function() {
-        assert.isUndefined($body.innerHTML, 'alert detached from page body');
-        done();
-      }, alertDuration);
+        if (++count >= resolution) {
+          clearInterval(interval);
+
+          var idx;
+          for (idx = 1; idx < resolution / 2; ++idx) {
+            if (1 != opacities[idx]) {
+              assert.isAtLeast(opacities[idx], opacities[idx - 1], 'going up');
+            }
+          }
+          for (true; idx < resolution; ++idx) {
+            if (1 != opacities[idx]) {
+              assert.isAtMost(opacities[idx], opacities[idx - 1], 'going down');
+            }
+          }
+
+          done();
+        }
+      }, alertDuration / resolution);
     });
+    
+    it('should detach the alert after showing it', function() {
+      assert.isUndefined($body.innerHTML, 'alert detached from page body');
+    });
+    
   });
 }
+
 
 testShowAlert('Success', $alertSuccess, 'alert-success');
 testShowAlert('Error', $alertError, 'alert-error');
 
 describe('doTipJar empty', function() {
+  var xhr;
+
   before(function() {
     doResetInput();
-    doTipJar(true);
+    xhr = sinon.useFakeXMLHttpRequest();
+    doTipJar(xhr);
+  });
+
+  after(function() {
+    xhr.restore();
   });
 
   it('should bail if no input is provided', function() {
-    assert.isUndefined($input.attr('disabled'), 'input is disabled');
+    assert.strictEqual($input.val(), '', 'input is empty');
+    assert.isUndefined($input.attr('disabled'), 'input is enabled');
   });
 });
 
 describe('doTipJar full', function() {
+  var xhr;
+
   before(function() {
-    $input.val('test');
-    doTipJar(true); // suppress POST for now. Remove when we can test this.
+    doResetInput();
+    $input.val('doTipJar full');
+
+    xhr = sinon.useFakeXMLHttpRequest();
+    xhr.requests = [];
+    xhr.onCreate = function(request) {
+      xhr.requests.push(request);
+    };
+
+    doTipJar(xhr);
   });
 
+  after(function() {
+    xhr.restore();
+  });
+  
   it('should disable input', function() {
     assert.strictEqual($input.attr('disabled'), 'disabled',
       'input is disabled');
   });
+
   it('should set the progress bar to zero', function() {
     assert.strictEqual($progressBar.css('width'), '0%',
       'width is 0%');
@@ -269,7 +334,9 @@ describe('doTipJar full', function() {
       '.width() is zero');
   });
 
-  // TODO: Probably need something like Sinon to test this.
-  // Get rid of that doTipJar(suppressPost) parameter when we have this.
-  it('should post to a web service asynchronously');
+  it('should post to a web service async', function() {
+    assert.strictEqual(xhr.requests.length, 1, 'one request');
+    assert.strictEqual(xhr.requests[0].method, 'POST', 'is a POST request');
+    assert.isTrue(xhr.requests[0].async, 'is async');
+  });
 });

@@ -163,9 +163,11 @@ function onError(xhr, status, error) {
 }
 
 // Submit 
-function doTipJar(suppressPost) {
-    var tip = $input.val().trim();
-
+function doTipJar(isTest) {
+    var tip;
+    var data;
+    
+    tip = $input.val().trim();
     if (!tip.length) {
         doResetInput($input);
         return;
@@ -176,16 +178,19 @@ function doTipJar(suppressPost) {
 
     doProgressBar(0);
 
-    if (!suppressPost) {
-        $.ajax({
-            type: 'POST',
-            url: 'https://pmrv6ztoi5.execute-api.us-west-2.amazonaws.com/prod',
-            dataType: 'json',
-            contentType: 'application/json',
-            data: JSON.stringify({ tip: tip }),
-            xhr: xhr,
-            success: onSuccess,
-            error: onError,
-        });
+    data = {
+        type: 'POST',
+        url: 'https://pmrv6ztoi5.execute-api.us-west-2.amazonaws.com/prod',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify({ tip: tip }),
+        success: onSuccess,
+        error: onError,
+    };
+
+    if (!isTest) {
+        data.xhr = xhr;
     }
+
+    $.ajax(data);
 }
