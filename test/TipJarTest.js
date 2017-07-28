@@ -281,7 +281,7 @@ describe('doTipJar empty', function() {
   before(function() {
     doResetInput();
     xhr = sinon.useFakeXMLHttpRequest();
-    doTipJar(xhr);
+    doTipJar(true);
   });
 
   after(function() {
@@ -307,7 +307,7 @@ describe('doTipJar full', function() {
       xhr.requests.push(request);
     };
 
-    doTipJar(xhr);
+    doTipJar(true);
   });
 
   after(function() {
