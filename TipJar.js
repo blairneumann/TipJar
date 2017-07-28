@@ -163,7 +163,7 @@ function onError(xhr, status, error) {
 }
 
 // Submit 
-function doTipJar(isTest) {
+function doTipJar() {
     var tip;
     var data;
 
@@ -186,11 +186,8 @@ function doTipJar(isTest) {
         data: JSON.stringify({ tip: tip }),
         success: onSuccess,
         error: onError,
+        xhr: xhr
     };
-
-    if (!isTest) {
-        data.xhr = xhr;
-    }
 
     $.ajax(data);
 }

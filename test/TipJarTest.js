@@ -228,7 +228,6 @@ describe('xhr', function() {
     doResetInput();
     $input.val('test xhr');
 
-    mySpy = sinon.spy();
     myXhr = sinon.useFakeXMLHttpRequest();
 
     myXhr.requests = [];
@@ -244,8 +243,11 @@ describe('xhr', function() {
 
   it('should drive progress bar from 0 to 100%', function() {
     assert.strictEqual($progressBar.css('width'), '0%', 'progress is zero');
-    doTipJar(true);
+    
+    assert.strictEqual(myXhr.requests.length, 0, 'zero requests');
+    doTipJar();
     assert.strictEqual(myXhr.requests.length, 1, 'one request');
+    
     myXhr.requests[0].respond(200, { }, '');
     assert.strictEqual($progressBar.css('width'), '100%', 'progress is 100%');
   });
@@ -305,7 +307,7 @@ describe('doTipJar empty', function() {
   before(function() {
     doResetInput();
     xhr = sinon.useFakeXMLHttpRequest();
-    doTipJar(true);
+    doTipJar();
   });
 
   after(function() {
@@ -331,7 +333,7 @@ describe('doTipJar full', function() {
       xhr.requests.push(request);
     };
 
-    doTipJar(true);
+    doTipJar();
   });
 
   after(function() {
