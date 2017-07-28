@@ -220,44 +220,34 @@ describe('doProgressBar', function() {
   });
 });
 
-// TODO: Sinon *is* a custom XHR.
-// So how do we test *our own* custom XHR?
 describe('xhr', function() {
   var myXhr;
 
   before(function() {
+    doProgressBar(0);
     doResetInput();
     $input.val('test xhr');
 
+    mySpy = sinon.spy();
     myXhr = sinon.useFakeXMLHttpRequest();
+
     myXhr.requests = [];
     myXhr.onCreate = function(request) {
       xhr(request);
       myXhr.requests.push(request);
     };
-
-    doTipJar(true);
   });
 
   after(function() {
     myXhr.restore();
   });
 
-  it('should update up to 50% on upload', function() {
-    assert.strictEqual(myXhr.requests.length, 1, 'one request so far');
-    assert.strictEqual($progressBar.css('width'), '0%',
-      'progress is at zero');
-
-    // TODO: How to spy or trigger upload complete?
-    assert.strictEqual($progressBar.css('width'), '50%',
-      'progress is at 50%');
-  });
-
-  it('should update from 50% to 100% on response', function() {
+  it('should drive progress bar from 0 to 100%', function() {
+    assert.strictEqual($progressBar.css('width'), '0%', 'progress is zero');
+    doTipJar(true);
+    assert.strictEqual(myXhr.requests.length, 1, 'one request');
     myXhr.requests[0].respond(200, { }, '');
-
-    assert.strictEqual($progressBar.css('width'), '100%',
-      'progress is at 100%');
+    assert.strictEqual($progressBar.css('width'), '100%', 'progress is 100%');
   });
 });
 
