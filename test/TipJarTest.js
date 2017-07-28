@@ -223,7 +223,29 @@ describe('doProgressBar', function() {
 // TODO: Sinon *is* a custom XHR.
 // So how do we test *our own* custom XHR?
 describe('xhr', function() {
-  it('should update up to 50% on upload');
+  var myXhr;
+
+  before(function() {
+    doResetInput();
+    $input.val('test xhr');
+
+    myXhr = sinon.useFakeXMLHttpRequest();
+    myXhr.requests = [];
+    myXhr.onCreate = function(request) {
+      xhr(request);
+      myXhr.requests.push(request);
+    };
+  });
+
+  after(function() {
+    myXhr.restore();
+  });
+
+  it('should update up to 50% on upload', function() {
+    doTipJar(true);
+    myXhr;
+  });
+
   it('should update from 50% to 100% on download');
 });
 
@@ -281,7 +303,7 @@ describe('doTipJar empty', function() {
   before(function() {
     doResetInput();
     xhr = sinon.useFakeXMLHttpRequest();
-    doTipJar(xhr);
+    doTipJar(true);
   });
 
   after(function() {
@@ -307,7 +329,7 @@ describe('doTipJar full', function() {
       xhr.requests.push(request);
     };
 
-    doTipJar(xhr);
+    doTipJar(true);
   });
 
   after(function() {

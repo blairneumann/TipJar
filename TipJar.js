@@ -117,8 +117,8 @@ function doProgressBar(percent) {
 }
 
 // Update the progress bar as upload and download progress.
-function xhr() {
-    var xhr = new window.XMLHttpRequest();
+function xhr(xhr) {
+    xhr = xhr || new window.XMLHttpRequest();
 
     xhr.upload.addEventListener('progress', function(event) {
         if (event.lengthComputable) {
