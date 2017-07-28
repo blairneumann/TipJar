@@ -248,12 +248,13 @@ describe('xhr', function() {
     assert.strictEqual($progressBar.css('width'), '0%',
       'progress is at zero');
 
-    assert.fail(0, 0, 'not tested: progress to 50%');
+    // TODO: How to spy or trigger upload complete?
+    assert.strictEqual($progressBar.css('width'), '50%',
+      'progress is at 50%');
   });
 
   it('should update from 50% to 100% on response', function() {
-    myXhr.requests[0].respond(200,
-      { 'content-type': 'application/json' }, '[{ \'foo\': \'bar\' }]');
+    myXhr.requests[0].respond(200, { }, '');
 
     assert.strictEqual($progressBar.css('width'), '100%',
       'progress is at 100%');
