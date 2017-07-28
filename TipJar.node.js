@@ -67,12 +67,12 @@ exports.handler = function(event, context, callback) {
         if (err) {
             console.log(err, err.stack);
 
-            done(callback, 'Send Mail', null);
+            done(callback, JSON.stringify(params), null);
         } else {
             console.log('Data: ', data);
             console.log('Email: ', email);
 
-            done(callback, null, 'Send Mail');
+            done(callback, null, JSON.stringify(params));
         }
     });
 };

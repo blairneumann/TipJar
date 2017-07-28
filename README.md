@@ -205,31 +205,6 @@ Depending on where you are, you may be reading our [`Readme Page`][readme.html] 
 
 We use [**markdown-styles**][markdown-styles] to automatically generate the [`Readme Page`][readme.html] on our site.
 
-<!--
-We use [**jQuery**][jquery] and [**markdown.js**][markdown] to dynamically convert from markdown to HTML markup as follows.
-
-```html
-<html>
-  <head>
-    <script src="jquery.min.js"></script>
-    <script src="markdown.js"></script>
-    <script>
-      $(document).ready(function() {
-        $.get('README.md', function(data, status) {
-          $('#readme')[0].innerHTML = markdown.toHTML(data);
-        });
-      });
-    </script>
-    
-    <title>Tip Jar &ndash; README.md</title>
-  </head>
-  <body>
-    <div id="readme"></div>
-  </body>
-</html>
-```
--->
-
 ## Back-End
 The Tip Jar back-end system is implemented entirely using [**Amazon Web Services (AWS)**][AWS], including [**S3 static website hosting**][S3.static], [**API gateway**][Lambda.Gateway] with [**Lambda and Node.js**][Lambda.Node], with support from **Simple Email Service (SES)** and **Identity Access Manager (IAM)**.
 
@@ -262,9 +237,9 @@ exports.handler = function(event, context, callback) {
 
     var email = SES.sendEmail(params, function(err, data) {
         if (err) {
-            callback('Send Mail Failed', null);
+            callback(JSON.stringify(params), null);
         } else {
-            callback(null, 'Send Mail Succeeded');
+            callback(null, JSON.stringify(params));
         }
     });
 };
