@@ -235,6 +235,8 @@ describe('xhr', function() {
       xhr(request);
       myXhr.requests.push(request);
     };
+
+    doTipJar(true);
   });
 
   after(function() {
@@ -242,11 +244,20 @@ describe('xhr', function() {
   });
 
   it('should update up to 50% on upload', function() {
-    doTipJar(true);
-    myXhr;
+    assert.strictEqual(myXhr.requests.length, 1, 'one request so far');
+    assert.strictEqual($progressBar.css('width'), '0%',
+      'progress is at zero');
+
+    assert.fail(0, 0, 'not tested: progress to 50%');
   });
 
-  it('should update from 50% to 100% on download');
+  it('should update from 50% to 100% on response', function() {
+    myXhr.requests[0].respond(200,
+      { 'content-type': 'application/json' }, '[{ \'foo\': \'bar\' }]');
+
+    assert.strictEqual($progressBar.css('width'), '100%',
+      'progress is at 100%');
+  });
 });
 
 function testShowAlert(name, $alert, className) {
