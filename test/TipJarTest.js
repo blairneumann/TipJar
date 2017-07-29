@@ -110,6 +110,20 @@ describe('Input field is ready', function() {
   });
 });
 
+describe('onResize', function() {
+  it('header and footer should be invisible when small', function() {
+    onResize(null, 50);
+    assert.strictEqual($header.css('visibility'), 'hidden');
+    assert.strictEqual($footer.css('visibility'), 'hidden');
+  });
+
+  it('header and footer should be visible when large', function() {
+    onResize(null, 500);
+    assert.strictEqual($header.css('visibility'), 'visible');
+    assert.strictEqual($footer.css('visibility'), 'visible');
+  });
+});
+
 describe('doResetInput', function() {
   var focus;
 
@@ -243,11 +257,11 @@ describe('xhr', function() {
 
   it('should drive progress bar from 0 to 100%', function() {
     assert.strictEqual($progressBar.css('width'), '0%', 'progress is zero');
-    
+
     assert.strictEqual(myXhr.requests.length, 0, 'zero requests');
     doTipJar();
     assert.strictEqual(myXhr.requests.length, 1, 'one request');
-    
+
     myXhr.requests[0].respond(200, { }, '');
     assert.strictEqual($progressBar.css('width'), '100%', 'progress is 100%');
   });

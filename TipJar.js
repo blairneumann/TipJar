@@ -47,6 +47,8 @@ var $body;
 var $input;
 var $charCount;
 var $progressBar;
+var $header;
+var $footer;
 
 // Use the actual element if it's available, otherwise use a test double.
 function elementTestDouble(actual, testDouble) {
@@ -61,6 +63,8 @@ function onReady() {
     $input = elementTestDouble($('#input-tip'), $('<input />'));
     $charCount = elementTestDouble($('#char-count'), $('<div></div>'));
     $progressBar = elementTestDouble($('#progress-bar'), $('<div></div>'));
+    $header = elementTestDouble($('#my-header'), $('<div></div>'));
+    $footer = elementTestDouble($('#my-footer'), $('<div></div>'));
 
     // Setup the input field.
     $input.attr('maxlength', maxCharCount);
@@ -79,7 +83,25 @@ function onReady() {
             return false;
         }
     });
+
+    onResize();
 } $(document).ready(onReady);
+
+// Run this when the window is resized, such as for soft keyboard visibility.
+// Factored this way for testability.
+function onResize(event, height) {
+    if (!height) {
+        height = $(window).height();
+    }
+
+    if (320 > height) {
+        $header.css('visibility', 'hidden');
+        $footer.css('visibility', 'hidden');
+    } else {
+        $header.css('visibility', 'visible');
+        $footer.css('visibility', 'visible');
+    }
+} $(window).resize(onResize);
 
 // Reset the input field to its enabled state.
 function doResetInput() {
@@ -186,7 +208,7 @@ function doTipJar() {
         data: JSON.stringify({ tip: tip }),
         success: onSuccess,
         error: onError,
-        xhr: xhr
+        xhr: xhr,
     };
 
     $.ajax(data);
