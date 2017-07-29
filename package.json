@@ -29,6 +29,10 @@
   },
   "author": "Blair Neumann",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "private": true
+  },
   "devDependencies": {
     "bootstrap": "^4.0.0-alpha.6",
     "chai": "^4.1.0",
