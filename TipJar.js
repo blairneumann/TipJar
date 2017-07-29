@@ -144,13 +144,13 @@ function xhr(xhr) {
 
     xhr.upload.addEventListener('progress', function(event) {
         if (event.lengthComputable) {
-            doProgressBar(event.loaded / event.total * 50);
+            doProgressBar(10 + event.loaded / event.total * 45);
         }
     }, false);
 
     xhr.addEventListener('progress', function(event) {
         if (event.lengthComputable) {
-            doProgressBar(50 + event.loaded / event.total * 50);
+            doProgressBar(55 + event.loaded / event.total * 45);
         }
     }, false);
 
@@ -198,7 +198,7 @@ function doTipJar() {
     $input.blur();
     $input.attr('disabled', 'disabled');
 
-    doProgressBar(0);
+    doProgressBar(10);
 
     data = {
         type: 'POST',

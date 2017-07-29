@@ -359,11 +359,9 @@ describe('doTipJar full', function() {
       'input is disabled');
   });
 
-  it('should set the progress bar to zero', function() {
-    assert.strictEqual($progressBar.css('width'), '0%',
-      'width is 0%');
-    assert.strictEqual($progressBar.width(), 0,
-      '.width() is zero');
+  it('should set the progress bar to non-zero', function() {
+    assert.isAbove($progressBar.width(), 0,
+      '.width() is above zero');
   });
 
   it('should post to a web service async', function() {
